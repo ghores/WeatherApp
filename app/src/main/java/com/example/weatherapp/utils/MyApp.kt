@@ -17,7 +17,7 @@ class MyApp : Application() {
             .addInterceptor(
                 CalligraphyInterceptor(
                     CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/atlas_regular.ttf")
+                        .setDefaultFontPath("fonts/vazitmatn.ttf")
                         .build()
                 )
             )
