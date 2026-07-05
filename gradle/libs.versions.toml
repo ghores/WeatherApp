@@ -23,6 +23,7 @@ okhttp = "4.12.0"
 lifecycle = "2.8.7"
 viewpump = "2.1.1"
 weatherview = "3.0.0"
+fragment = "1.8.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -69,6 +70,7 @@ lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtim
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
 viewpump = { module = "io.github.inflationx:viewpump", version.ref = "viewpump" }
 weatherview = { module = "com.github.MatteoBattilana:WeatherView", version.ref = "weatherview" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
