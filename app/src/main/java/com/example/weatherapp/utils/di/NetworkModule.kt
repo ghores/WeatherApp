@@ -9,7 +9,7 @@ import com.example.weatherapp.utils.NAMED_PING
 import com.example.weatherapp.utils.PING_INTERVAL
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.plattysoft.leonids.BuildConfig
+import com.example.weatherapp.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,7 +38,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideBaseUrl() = BASE_URL
+    fun provideBaseUrl(): String = BASE_URL
 
     @Provides
     @Singleton
@@ -65,16 +65,16 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideInterceptor() = HttpLoggingInterceptor().apply {
+    fun provideInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
     }
 
     @Provides
     @Singleton
-    fun provideTimeout() = CONNECTION_TIME
+    fun provideTimeout(): Long = CONNECTION_TIME
 
     @Provides
     @Singleton
     @Named(NAMED_PING)
-    fun providePingInterval() = PING_INTERVAL
+    fun providePingInterval(): Long = PING_INTERVAL
 }
