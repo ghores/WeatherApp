@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.data.database.CitiesEntity
+import com.example.weatherapp.data.model.main.ResponseCurrentWeather
 import com.example.weatherapp.repository.MainRepository
+import com.example.weatherapp.utils.network.NetworkRequest
+import com.example.weatherapp.utils.network.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,5 +23,15 @@ class MainViewModel @Inject constructor(private val mainRepository: MainReposito
         mainRepository.getCities().collect {
             _citiesData.value = it
         }
+    }
+
+    //Api
+    private val _currentWeatherData = MutableLiveData<NetworkRequest<ResponseCurrentWeather>>()
+    val currentWeatherData: LiveData<NetworkRequest<ResponseCurrentWeather>> = _currentWeatherData
+
+    fun callCurrentWeatherApi(lat: Double, lon: Double) = viewModelScope.launch {
+        _currentWeatherData.value = NetworkRequest.Loading()
+        val response = mainRepository.getCurrentWeather(lat, lon)
+        _currentWeatherData.value = NetworkResponse(response).generateResponse()
     }
 }

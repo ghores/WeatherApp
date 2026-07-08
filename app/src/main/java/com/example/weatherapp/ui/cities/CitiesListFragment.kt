@@ -12,7 +12,6 @@ import com.example.weatherapp.databinding.FragmentCitiesListBinding
 import com.example.weatherapp.utils.base.BaseBottomSheetFragment
 import com.example.weatherapp.utils.events.EventBus
 import com.example.weatherapp.utils.events.Events
-import com.example.weatherapp.utils.onceObserve
 import com.example.weatherapp.utils.other.CityClickTypes
 import com.example.weatherapp.utils.setupRecyclerview
 import com.example.weatherapp.viewmodel.CitiesViewModel
@@ -41,7 +40,7 @@ class CitiesListFragment : BaseBottomSheetFragment<FragmentCitiesListBinding>() 
 
     private fun loadCitiesData() {
         binding.apply {
-            citiesViewModel.citiesData.onceObserve(viewLifecycleOwner) {cities->
+            citiesViewModel.citiesData.observe(viewLifecycleOwner) {cities->
                 //Visibility
                 visibilityView(cities.isEmpty())
                 //Fill recyclerView
