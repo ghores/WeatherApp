@@ -3,21 +3,16 @@ package com.example.weatherapp.ui.main
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentMainBinding
 import com.example.weatherapp.utils.base.BaseFragment
-import com.example.weatherapp.utils.events.EventBus
-import com.example.weatherapp.utils.events.Events
 import com.example.weatherapp.utils.onceObserve
 import com.example.weatherapp.utils.setStatusBarIconsColor
 import com.example.weatherapp.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>() {
@@ -31,16 +26,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         super.onViewCreated(view, savedInstanceState)
         //Change statusBar color
         requireActivity().setStatusBarIconsColor(false)
+        //InitViews
+        binding.apply {
+            menuImg.setOnClickListener { findNavController().navigate(R.id.actionToCitiesList) }
+            addImg.setOnClickListener { findNavController().navigate(R.id.actionToAddCity) }
+        }
         //Cities list
         mainViewModel.callCitiesData()
         //Load data
         loadCitiesData()
-
-        lifecycleScope.launch {
-            EventBus.subscribe<Events.OnUpdateWeather> {
-                Toast.makeText(requireContext(), "${it.lat} -- ${it.lon}", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     private fun loadCitiesData() {
@@ -48,6 +42,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             mainViewModel.citiesData.onceObserve(viewLifecycleOwner) {
                 if (it.isNotEmpty()) {
                     emptyLay.isVisible = false
+                    container.isVisible = true
                 } else {
                     emptyLay.isVisible = true
                     findNavController().navigate(R.id.actionToAddCity)

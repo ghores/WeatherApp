@@ -10,13 +10,22 @@
         android:name="com.example.weatherapp.ui.main.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" />
+    <!--Add city-->
     <action
         android:id="@+id/actionToAddCity"
         app:destination="@id/addCityFragment" />
-    <!--Add city-->
     <dialog
         android:id="@+id/addCityFragment"
         android:name="com.example.weatherapp.ui.add_city.AddCityFragment"
+        android:label="fragment_add_city"
+        tools:layout="@layout/fragment_add_city" />
+    <!--Cities list-->
+    <action
+        android:id="@+id/actionToCitiesList"
+        app:destination="@id/citiesListFragment" />
+    <dialog
+        android:id="@+id/citiesListFragment"
+        android:name="com.example.weatherapp.ui.cities.CitiesListFragment"
         android:label="fragment_cities_list"
         tools:layout="@layout/fragment_cities_list" />
 </navigation>

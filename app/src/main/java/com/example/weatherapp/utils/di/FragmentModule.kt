@@ -10,5 +10,5 @@ import dagger.hilt.android.components.FragmentComponent
 @InstallIn((FragmentComponent::class))
 object FragmentModule {
     @Provides
-    fun cityEntity() = CitiesEntity()
+    fun cityEntity(): CitiesEntity = CitiesEntity()
 }
