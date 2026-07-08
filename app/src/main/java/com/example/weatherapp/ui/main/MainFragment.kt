@@ -8,8 +8,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.weatherapp.R
+import com.example.weatherapp.data.model.main.ResponseForecast
 import com.example.weatherapp.databinding.FragmentMainBinding
 import com.example.weatherapp.utils.base.BaseFragment
 import com.example.weatherapp.utils.events.EventBus
@@ -18,17 +20,22 @@ import com.example.weatherapp.utils.isVisible
 import com.example.weatherapp.utils.network.NetworkRequest
 import com.example.weatherapp.utils.onceObserve
 import com.example.weatherapp.utils.setStatusBarIconsColor
+import com.example.weatherapp.utils.setupRecyclerview
 import com.example.weatherapp.utils.showSnackBar
 import com.example.weatherapp.viewmodel.MainViewModel
 import com.github.matteobattilana.weather.PrecipType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>() {
     override val bindingInflater: (inflater: LayoutInflater) -> FragmentMainBinding
         get() = FragmentMainBinding::inflate
+
+    @Inject
+    lateinit var forecastAdapter: ForecastAdapter
 
     //Other
     private val mainViewModel by viewModels<MainViewModel>()
@@ -48,10 +55,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         //Load data
         loadCitiesData()
         loadCurrentWeatherData()
+        loadForecastWeatherData()
         //Event
         lifecycleScope.launch {
             EventBus.subscribe<Events.OnUpdateWeather> {
                 mainViewModel.callCurrentWeatherApi(it.lat!!, it.lon!!)
+                mainViewModel.callForecastWeatherApi(it.lat, it.lon)
             }
         }
     }
@@ -62,6 +71,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
                 if (it.isNotEmpty()) {
                     emptyLay.isVisible = false
                     mainViewModel.callCurrentWeatherApi(it[0].lat!!, it[0].lon!!)
+                    mainViewModel.callForecastWeatherApi(it[0].lat!!, it[0].lon!!)
                 } else {
                     emptyLay.isVisible = true
                     findNavController().navigate(R.id.actionToAddCity)
@@ -114,6 +124,25 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun loadForecastWeatherData() {
+        binding.apply {
+            mainViewModel.forecastWeatherData.observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is NetworkRequest.Loading -> {}
+                    is NetworkRequest.Success -> {
+                        response.data?.let { data ->
+                            data.list?.let { initRecyclerView(it) }
+                        }
+                    }
+                    is NetworkRequest.Error -> {
+                        root.showSnackBar(response.error!!)
+                    }
+                }
+            }
+        }
+    }
+
     private fun isNightNow(): Boolean {
         return calendar.get(Calendar.HOUR_OF_DAY) >= 18
     }
@@ -156,5 +185,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             emissionRate = 100.0f
             speed = 50
         }
+    }
+
+    private fun initRecyclerView(list: List<ResponseForecast.Data>) {
+        forecastAdapter.setData(list)
+        binding.forecastList.setupRecyclerview(
+            LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL, true
+            ), forecastAdapter
+        )
     }
 }
