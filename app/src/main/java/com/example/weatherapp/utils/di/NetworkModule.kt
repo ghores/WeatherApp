@@ -46,9 +46,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideClient(
-        timeout: Long, @Named(NAMED_PING) ping: Long, interceptor: HttpLoggingInterceptor
-    ) = OkHttpClient.Builder()
+    fun provideClient(timeout: Long, @Named(NAMED_PING) ping: Long, interceptor: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
             val url = chain.request().url.newBuilder().addQueryParameter(APPID, API_KEY).build()
             val request = chain.request().newBuilder().url(url).build()

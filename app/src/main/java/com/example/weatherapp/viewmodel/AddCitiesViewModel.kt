@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.data.database.CitiesDao
+import com.example.weatherapp.data.database.CitiesEntity
 import com.example.weatherapp.data.model.add_city.ResponseCitiesList
 import com.example.weatherapp.repository.AddCityRepository
 import com.example.weatherapp.utils.network.NetworkRequest
@@ -13,7 +15,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddCitiesViewModel @Inject constructor(private val addCityRepository: AddCityRepository) : ViewModel() {
+class AddCitiesViewModel @Inject constructor(
+    private val addCityRepository: AddCityRepository,
+    private val dao: CitiesDao
+) : ViewModel() {
     //Cities
     private val _citiesData = MutableLiveData<NetworkRequest<ResponseCitiesList>>()
     val citiesData: LiveData<NetworkRequest<ResponseCitiesList>> = _citiesData
@@ -22,5 +27,10 @@ class AddCitiesViewModel @Inject constructor(private val addCityRepository: AddC
         _citiesData.value = NetworkRequest.Loading()
         val response = addCityRepository.getCitiesList(q)
         _citiesData.value = NetworkResponse(response).generateResponse()
+    }
+
+    //Save city
+    fun saveCity(entity: CitiesEntity) = viewModelScope.launch {
+        dao.saveCity(entity)
     }
 }

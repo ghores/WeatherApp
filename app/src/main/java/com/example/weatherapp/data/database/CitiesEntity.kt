@@ -8,7 +8,7 @@ import com.example.weatherapp.utils.CITIES_TABLE
 data class CitiesEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    var name: String,
-    var lat: String,
-    var lon: String
+    var name: String? = null,
+    var lat: Double? = null,
+    var lon: Double? = null
 )
