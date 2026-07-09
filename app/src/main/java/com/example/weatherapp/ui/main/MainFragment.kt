@@ -189,7 +189,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
             setWeatherData(type)
             angle = 20
             emissionRate = 100.0f
-            speed = 50
+            speed = 300
+            scaleFactor = 1.3f
         }
     }
 
