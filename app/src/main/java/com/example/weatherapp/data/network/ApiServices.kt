@@ -1,6 +1,7 @@
 package com.example.weatherapp.data.network
 
 import com.example.weatherapp.data.model.add_city.ResponseCitiesList
+import com.example.weatherapp.data.model.info.ResponsePollution
 import com.example.weatherapp.data.model.main.ResponseCurrentWeather
 import com.example.weatherapp.data.model.main.ResponseForecast
 import retrofit2.Response
@@ -26,4 +27,10 @@ interface ApiServices {
         @Query("lang") lang: String,
         @Query("units") units: String
     ): Response<ResponseForecast>
+
+    @GET("data/2.5/air_pollution")
+    suspend fun getPollution(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double
+    ): Response<ResponsePollution>
 }

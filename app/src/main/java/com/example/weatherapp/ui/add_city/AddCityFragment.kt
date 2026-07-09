@@ -29,7 +29,7 @@ class AddCityFragment : BaseBottomSheetFragment<FragmentAddCityBinding>() {
         get() = FragmentAddCityBinding::inflate
 
     @Inject
-    lateinit var citiesAdapter: CitiesAdapter
+    lateinit var citiesAdapter: AddCitiesAdapter
 
     @Inject
     lateinit var citiesEntity: CitiesEntity

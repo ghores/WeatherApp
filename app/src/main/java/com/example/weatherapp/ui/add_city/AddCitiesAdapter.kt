@@ -10,7 +10,7 @@ import com.example.weatherapp.databinding.ItemCitiesBinding
 import com.example.weatherapp.utils.base.BaseDiffUtils
 import javax.inject.Inject
 
-class CitiesAdapter @Inject constructor() : RecyclerView.Adapter<CitiesAdapter.ViewHolder>() {
+class AddCitiesAdapter @Inject constructor() : RecyclerView.Adapter<AddCitiesAdapter.ViewHolder>() {
 
     private var items = emptyList<ResponseCitiesList.ResponseCitiesListItem>()
 
