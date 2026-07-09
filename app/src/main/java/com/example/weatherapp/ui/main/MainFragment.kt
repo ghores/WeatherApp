@@ -83,16 +83,22 @@ class MainFragment : BaseFragment<FragmentMainBinding>() {
     @SuppressLint("SetTextI18n")
     private fun loadCurrentWeatherData() {
         binding.apply {
-            mainViewModel.currentWeatherData.observe(viewLifecycleOwner) {response->
-                when(response) {
+            mainViewModel.currentWeatherData.observe(viewLifecycleOwner) { response ->
+                when (response) {
                     is NetworkRequest.Loading -> { loading.isVisible(true, container) }
                     is NetworkRequest.Success -> {
                         loading.isVisible(false, container)
-                        response.data?.let {data->
+                        emptyLay.isVisible = false
+                        response.data?.let { data ->
+                            //Info fragment
+                            showAllTxt.setOnClickListener {
+                                val direction = MainFragmentDirections.actionToInfo(data)
+                                findNavController().navigate(direction)
+                            }
                             //Name
                             cityName.text = data.name
                             //Weather
-                            data.weather?.let {weather->
+                            data.weather?.let { weather ->
                                 if (weather.isNotEmpty()) {
                                     weather[0]?.let {
                                         //Info

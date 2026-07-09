@@ -28,4 +28,17 @@
         android:name="com.example.weatherapp.ui.cities.CitiesListFragment"
         android:label="fragment_cities_list"
         tools:layout="@layout/fragment_cities_list" />
+    <!--Info-->
+    <action
+        android:id="@+id/actionToInfo"
+        app:destination="@id/infoFragment" />
+    <dialog
+        android:id="@+id/infoFragment"
+        android:name="com.example.weatherapp.ui.info.InfoFragment"
+        android:label="fragment_info"
+        tools:layout="@layout/fragment_info" >
+        <argument
+            android:name="Data"
+            app:argType="com.example.weatherapp.data.model.main.ResponseCurrentWeather" />
+    </dialog>
 </navigation>

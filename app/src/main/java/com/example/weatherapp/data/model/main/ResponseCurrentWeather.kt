@@ -1,36 +1,40 @@
 package com.example.weatherapp.data.model.main
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 data class ResponseCurrentWeather(
     @SerializedName("base")
     val base: String?, // stations
     @SerializedName("clouds")
-    val clouds: Clouds?,
+    val clouds: @RawValue Clouds?,
     @SerializedName("cod")
     val cod: Int?, // 200
     @SerializedName("coord")
-    val coord: Coord?,
+    val coord: @RawValue Coord?,
     @SerializedName("dt")
     val dt: Int?, // 1783530613
     @SerializedName("id")
     val id: Int?, // 3163858
     @SerializedName("main")
-    val main: Main?,
+    val main: @RawValue Main?,
     @SerializedName("name")
     val name: String?, // Zocca
     @SerializedName("sys")
-    val sys: Sys?,
+    val sys: @RawValue Sys?,
     @SerializedName("timezone")
     val timezone: Int?, // 7200
     @SerializedName("visibility")
     val visibility: Int?, // 10000
     @SerializedName("weather")
-    val weather: List<Weather?>?,
+    val weather: @RawValue List<Weather?>?,
     @SerializedName("wind")
-    val wind: Wind?
-) {
+    val wind: @RawValue Wind?
+) : Parcelable {
     data class Clouds(
         @SerializedName("all")
         val all: Int? // 42
