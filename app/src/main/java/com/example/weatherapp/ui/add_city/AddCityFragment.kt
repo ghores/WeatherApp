@@ -3,6 +3,7 @@ package com.example.weatherapp.ui.add_city
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -38,6 +39,7 @@ class AddCityFragment : BaseBottomSheetFragment<FragmentAddCityBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
         //InitViews
         binding.apply {
             searchInpLay.setEndIconOnClickListener {
